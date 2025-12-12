@@ -11,10 +11,10 @@
 
 # About
 
-**_Set Default Options_** is a utility function to create default options for any function while merging with user-defined options that can be received as argument. The idea is to always set default values for any function that has an "option" parameter, totally avoiding `undefined` values to be evaluated. See the example below:
+**_Use Default Options_** is a utility function to create default options for any function while merging with user-defined options that can be received as argument. The idea is to always set default values for any function that has an "option" parameter, totally avoiding `undefined` values to be evaluated. See the example below:
 
 ```ts
-import setDefaultOptions from 'use-default-options'
+import useDefaultOptions from 'use-default-options'
 
 // This is the interface with all the options
 // that can be settled to our function.
@@ -27,13 +27,13 @@ interface ReturnOptsFunctionOptions {
 }
 
 function returnOpts(options?: ReturnOptsFunctionOptions) {
-  // Call "setDefaultOptions()" to make all values required,
+  // Call "useDefaultOptions()" to make all values required,
   // since we're setting default values for each one of them,
   // then place the "options" parameter as second argument
   // of the function to merge.
 
   // Remeber to put your options type as type parameter.
-  const opts = setDefaultOptions<ReturnOptsFunctionOptions>(
+  const opts = useDefaultOptions<ReturnOptsFunctionOptions>(
     // Default values
     {
       option1: 'example',
