@@ -1,0 +1,51 @@
+{
+  "name": "use-default-options",
+  "version": "1.0.0",
+  "description": "Utility function to merge default options with user-defined ones.",
+  "homepage": "https://github.com/ruggeryiury/use-default-options#readme",
+  "repository": "github:ruggeryiury/use-default-options",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "packageManager": "pnpm@10.10.0",
+  "author": "Ruggery Iury Corrêa <ruggeryiury@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "javascript",
+    "javascript-library",
+    "node",
+    "nodejs",
+    "nodejs-modules",
+    "typescript",
+    "typescript-library",
+    "utility",
+    "utility-function"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "clear": "rimraf dist",
+    "dev": "tsx watch ./dev/main.ts",
+    "format": "prettier --write src",
+    "lint": "eslint src"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "@types/node": "^22.15.15",
+    "eslint": "^9.26.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsdoc": "^50.6.11",
+    "prettier": "^3.5.3",
+    "tsdown": "^0.17.2",
+    "tsx": "^4.19.4",
+    "type-fest": "^4.40.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.1"
+  }
+}

@@ -1,0 +1,73 @@
+# .github/workflows/release.yml
+name: Build and Release
+
+on:
+  push:
+    paths:
+      - 'package.json'
+      - '**/*.ts'
+      - '**/*.js'
+      - '.npmignore'
+      - '.github/workflows/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Pack project
+        id: pack-project
+        run: |
+          FILE=$(npm pack)
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+
+      - name: Read version from package.json
+        id: package_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version detected: $VERSION"
+
+      - name: Generate release body
+        id: release_body
+        run: |
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "Release for version v${{ steps.package_version.outputs.version }}." >> $GITHUB_OUTPUT
+          echo "- Built from commit ${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+
+          # Check if the tag exists
+          if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            LAST_TAG=$(git describe --tags --abbrev=0)
+            echo "Changes since last release:" >> $GITHUB_OUTPUT
+            git log "$LAST_TAG"..HEAD --oneline >> $GITHUB_OUTPUT
+          fi
+
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.package_version.outputs.version }}
+          name: v${{ steps.package_version.outputs.version }}
+          files: ${{ steps.pack-project.outputs.file }}
+          body: ${{ steps.release_body.outputs.body }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
