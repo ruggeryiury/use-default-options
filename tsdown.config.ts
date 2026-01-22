@@ -6,4 +6,5 @@ export default defineConfig({
   platform: 'neutral',
   fixedExtension: false,
   minify: true,
+  external: ['type-fest'],
 })
