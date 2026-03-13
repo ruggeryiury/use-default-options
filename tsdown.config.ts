@@ -5,7 +5,7 @@ export default defineConfig({
   banner: "// For more information, please visit use-default-options's GitHub repository:\n// https://github.com/ruggeryiury/use-default-options\n",
   platform: 'neutral',
   fixedExtension: false,
-  minify: true,
+  minify: false,
   deps: {
     neverBundle: ['type-fest'],
   },
